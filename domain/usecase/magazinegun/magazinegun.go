@@ -65,14 +65,13 @@ func (svc *MagazineService) DetachMagazine(ctx context.Context, id string) error
 	return svc.update(ctx, *magazine.ToMagazineModel())
 }
 
-func (svc *MagazineService) Verify(ctx context.Context) error {
-	var err error
+func (svc *MagazineService) Verify(ctx context.Context) (magazine *shared.Magazine, err error) {
 	magazines, err := svc.getByStatus(ctx, magazinegun.StatusAttach)
 	if err != nil {
-		return errors.AddTrace(err)
+		return magazine, errors.AddTrace(err)
 	}
 	if len(magazines) == 0 {
-		return errors.AddTrace(errors.New("no magazine attached"))
+		return magazine, errors.AddTrace(errors.New("no magazine attached"))
 	}
 	verifiedFound := false
 	for _, magazine := range magazines {
@@ -82,17 +81,19 @@ func (svc *MagazineService) Verify(ctx context.Context) error {
 		}
 	}
 	if verifiedFound {
-		return errors.AddTrace(errors.New("a verified magazine already exists"))
+		return magazine, errors.AddTrace(errors.New("a verified magazine already exists"))
 	}
-	for _, magazine := range magazines {
-		if magazine.BulletQty > 0 {
+	for _, resp := range magazines {
+		if resp.BulletQty > 0 {
 			// shot bullet from gun
-			magazine.BulletQty--
-			err = svc.update(ctx, *magazine.ToMagazineModel())
+			resp.BulletQty--
+			resp.IsVerified = true
+			magazine = &resp
+			err = svc.update(ctx, *resp.ToMagazineModel())
 			break
 		}
 	}
-	return err
+	return magazine, err
 }
 
 func (svc *MagazineService) getByID(ctx context.Context, id string) (magazine *shared.Magazine, err error) {

@@ -1,0 +1,14 @@
+*.swp
+vendor/
+proto/
+bin/
+*.log.*
+*.log
+*.idea
+*.iml
+Vagrantfile
+DEVENV
+*~
+\#*\#
+.\#*
+assessment

@@ -9,6 +9,7 @@ import (
 	"github.com/ahmadrezamusthafa/assessment/pkg/database"
 	"github.com/ahmadrezamusthafa/assessment/server"
 	httphealth "github.com/ahmadrezamusthafa/assessment/server/http/health"
+	httpmagazine "github.com/ahmadrezamusthafa/assessment/server/http/magazinegun"
 )
 
 func main() {
@@ -25,6 +26,7 @@ func main() {
 	container.RegisterService("cache", new(cache.AssessmentCache))
 	container.RegisterService("magazineService", new(magazinegun.MagazineService))
 	container.RegisterService("healthHandler", new(httphealth.Handler))
+	container.RegisterService("magazineHandler", new(httpmagazine.Handler))
 
 	rootHandler := new(server.RootHandler)
 	container.RegisterService("rootHandler", rootHandler)

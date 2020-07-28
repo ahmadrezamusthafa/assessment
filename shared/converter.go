@@ -11,3 +11,14 @@ func (m *MagazineModel) ToMagazine() *Magazine {
 	magazine.UpdatedAt = m.Magazine.UpdatedAt
 	return magazine
 }
+func (m *Magazine) ToMagazineModel() *MagazineModel {
+	magazineModel := new(MagazineModel)
+	magazineModel.Magazine.ID = m.ID
+	magazineModel.Magazine.Name = m.Name
+	magazineModel.Magazine.BulletQty = m.BulletQty
+	magazineModel.Magazine.Status = m.Status
+	magazineModel.Magazine.IsVerified = m.IsVerified
+	magazineModel.Magazine.CreatedAt = m.CreatedAt
+	magazineModel.Magazine.UpdatedAt = m.UpdatedAt
+	return magazineModel
+}

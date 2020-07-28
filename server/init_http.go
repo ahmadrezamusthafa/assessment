@@ -5,6 +5,7 @@ import (
 	commonhandlers "github.com/ahmadrezamusthafa/assessment/common/middleware"
 	"github.com/ahmadrezamusthafa/assessment/config"
 	"github.com/ahmadrezamusthafa/assessment/server/http/health"
+	"github.com/ahmadrezamusthafa/assessment/server/http/magazinegun"
 	"github.com/gorilla/mux"
 	"net/http"
 )
@@ -16,7 +17,8 @@ type HttpServer struct {
 }
 
 type RootHandler struct {
-	Health *health.Handler `inject:"healthHandler"`
+	Health   *health.Handler      `inject:"healthHandler"`
+	Magazine *magazinegun.Handler `inject:"magazineHandler"`
 }
 
 func (svr *HttpServer) Serve() {
@@ -38,5 +40,12 @@ func createRouter(rh *RootHandler) *mux.Router {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/health", rh.Health.HealthCheck).Methods("GET")
+	magazinePath := router.PathPrefix("/magazine").Subrouter()
+	magazinePath.HandleFunc("/add_magazine", rh.Magazine.AddMagazine).Methods("POST")
+	magazinePath.HandleFunc("/add_magazine_bullet", rh.Magazine.AddMagazineBullet).Methods("POST")
+	magazinePath.HandleFunc("/attach_magazine", rh.Magazine.AttachMagazine).Methods("GET")
+	magazinePath.HandleFunc("/detach_magazine", rh.Magazine.DetachMagazine).Methods("GET")
+	magazinePath.HandleFunc("/verify", rh.Magazine.Verify).Methods("GET")
+
 	return router
 }

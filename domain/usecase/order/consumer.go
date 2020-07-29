@@ -6,6 +6,7 @@ import (
 	"github.com/ahmadrezamusthafa/assessment/shared"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/nsqio/go-nsq"
+	"strings"
 )
 
 func (svc *OrderService) addOrder(message *nsq.Message, topic string) bool {
@@ -20,6 +21,11 @@ func (svc *OrderService) addOrder(message *nsq.Message, topic string) bool {
 	err = svc.AddOrder(ctx, data, true)
 	if err != nil {
 		logger.Err("Error add order from nsq ", err)
+		if strings.Contains(err.Error(), "insufficient") {
+			// disable auto retry
+			logger.Info("Disable auto retry, cause insufficient stock")
+			return false
+		}
 		return true
 	}
 	return false

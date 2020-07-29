@@ -12,6 +12,7 @@ import (
 	assessmentnsq "github.com/ahmadrezamusthafa/assessment/pkg/nsq"
 	"github.com/nsqio/go-nsq"
 	"log"
+	"time"
 )
 
 const (
@@ -57,7 +58,7 @@ func (svc *OrderService) addConsumer(topic string, serviceHandler assessmentnsq.
 		logger.Info("Got a message: %s id:%s", message.Body, message.ID)
 		isRequeue := serviceHandler(message, topic)
 		if isRequeue {
-			message.Requeue(-1)
+			message.Requeue(2 * time.Second)
 		} else {
 			message.Finish()
 		}

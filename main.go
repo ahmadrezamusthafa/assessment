@@ -5,6 +5,8 @@ import (
 	"github.com/ahmadrezamusthafa/assessment/common/logger"
 	"github.com/ahmadrezamusthafa/assessment/config"
 	"github.com/ahmadrezamusthafa/assessment/domain/usecase/magazinegun"
+	"github.com/ahmadrezamusthafa/assessment/domain/usecase/order"
+	"github.com/ahmadrezamusthafa/assessment/domain/usecase/product"
 	"github.com/ahmadrezamusthafa/assessment/pkg/cache"
 	"github.com/ahmadrezamusthafa/assessment/pkg/database"
 	"github.com/ahmadrezamusthafa/assessment/server"
@@ -25,6 +27,8 @@ func main() {
 	container.RegisterService("database", new(database.AssessmentDatabase))
 	container.RegisterService("cache", new(cache.AssessmentCache))
 	container.RegisterService("magazineService", new(magazinegun.MagazineService))
+	container.RegisterService("productService", new(product.ProductService))
+	container.RegisterService("orderService", new(order.OrderService))
 	container.RegisterService("healthHandler", new(httphealth.Handler))
 	container.RegisterService("magazineHandler", new(httpmagazine.Handler))
 

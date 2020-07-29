@@ -10,6 +10,7 @@ const (
 			id,
 			product_id,
 			qty,
+			is_verified,
 			created_at
 		)
 		VALUES
@@ -17,6 +18,7 @@ const (
 			:id,
 			:product_id,
 			:qty,
+			false,
 			CURRENT_TIMESTAMP
 		)
 	`
@@ -26,6 +28,7 @@ const (
 			id,
 			product_id,
 			qty,
+			is_verified,
 			created_at,
 			updated_at
 		FROM order

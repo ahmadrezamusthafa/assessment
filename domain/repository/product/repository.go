@@ -72,26 +72,3 @@ func (dom Domain) Get(ctx context.Context, query Query, conditions []*types.Cond
 	}
 	return dbResp, nil
 }
-
-func (dom Domain) GetWithFooter(ctx context.Context, query Query, conditions []*types.Condition, footer types.Footer) (products []Product, err error) {
-	baseCondition := types.BaseCondition{
-		Conditions: []*types.Condition{
-			{
-				Conditions: conditions,
-			},
-		},
-		Footer: footer,
-	}
-	generatedQuery, err := multigenerator.GenerateQuery(query.ToString(), baseCondition)
-	if err != nil {
-		return []Product{}, errors.AddTrace(err)
-	}
-	dbResp, err := dom.repository.get(ctx, generatedQuery)
-	if err != nil {
-		return []Product{}, errors.AddTrace(err)
-	}
-	if len(dbResp) <= 0 {
-		return []Product{}, errors.SqlNoRowsError
-	}
-	return dbResp, nil
-}

@@ -8,26 +8,30 @@ const (
 		order
 		(
 			id,
-			product_id,
-			qty,
 			is_verified,
 			created_at
 		)
 		VALUES
 		(
 			:id,
-			:product_id,
-			:qty,
 			false,
 			CURRENT_TIMESTAMP
 		)
 	`
 
+	QueryUpdateOrder Query = `
+		UPDATE
+		magazine_gun
+		SET 
+			is_verified=:is_verified,
+			updated_at=CURRENT_TIMESTAMP
+		WHERE
+			id=:id;
+	`
+
 	QuerySelectOrder Query = `
 		SELECT
 			id,
-			product_id,
-			qty,
 			is_verified,
 			created_at,
 			updated_at

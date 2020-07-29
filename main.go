@@ -6,6 +6,7 @@ import (
 	"github.com/ahmadrezamusthafa/assessment/config"
 	"github.com/ahmadrezamusthafa/assessment/domain/usecase/magazinegun"
 	"github.com/ahmadrezamusthafa/assessment/domain/usecase/order"
+	"github.com/ahmadrezamusthafa/assessment/domain/usecase/orderproduct"
 	"github.com/ahmadrezamusthafa/assessment/domain/usecase/product"
 	"github.com/ahmadrezamusthafa/assessment/pkg/cache"
 	"github.com/ahmadrezamusthafa/assessment/pkg/database"
@@ -29,6 +30,7 @@ func main() {
 	container.RegisterService("magazineService", new(magazinegun.MagazineService))
 	container.RegisterService("productService", new(product.ProductService))
 	container.RegisterService("orderService", new(order.OrderService))
+	container.RegisterService("orderProductService", new(orderproduct.OrderProductService))
 	container.RegisterService("healthHandler", new(httphealth.Handler))
 	container.RegisterService("magazineHandler", new(httpmagazine.Handler))
 

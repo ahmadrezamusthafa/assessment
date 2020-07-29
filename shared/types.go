@@ -3,6 +3,7 @@ package shared
 import (
 	"github.com/ahmadrezamusthafa/assessment/domain/repository/magazinegun"
 	"github.com/ahmadrezamusthafa/assessment/domain/repository/order"
+	"github.com/ahmadrezamusthafa/assessment/domain/repository/orderproduct"
 	"github.com/ahmadrezamusthafa/assessment/domain/repository/product"
 )
 
@@ -28,4 +29,12 @@ type Order struct {
 
 type OrderModel struct {
 	Order order.Order
+}
+
+type OrderProduct struct {
+	orderproduct.OrderProduct
+}
+
+type OrderProductModel struct {
+	OrderProduct orderproduct.OrderProduct
 }

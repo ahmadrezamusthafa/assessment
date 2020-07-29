@@ -49,8 +49,6 @@ func (p *Product) ToProductModel() *ProductModel {
 func (o *OrderModel) ToOrder() *Order {
 	order := new(Order)
 	order.ID = o.Order.ID
-	order.ProductID = o.Order.ProductID
-	order.Qty = o.Order.Qty
 	order.IsVerified = o.Order.IsVerified
 	order.CreatedAt = o.Order.CreatedAt
 	order.UpdatedAt = o.Order.UpdatedAt
@@ -60,10 +58,28 @@ func (o *OrderModel) ToOrder() *Order {
 func (p *Order) ToOrderModel() *OrderModel {
 	orderModel := new(OrderModel)
 	orderModel.Order.ID = p.ID
-	orderModel.Order.ProductID = p.ProductID
-	orderModel.Order.Qty = p.Qty
 	orderModel.Order.IsVerified = p.IsVerified
 	orderModel.Order.CreatedAt = p.CreatedAt
 	orderModel.Order.UpdatedAt = p.UpdatedAt
+	return orderModel
+}
+
+func (o *OrderProductModel) ToOrderProduct() *OrderProduct {
+	order := new(OrderProduct)
+	order.ID = o.OrderProduct.ID
+	order.ProductID = o.OrderProduct.ProductID
+	order.Qty = o.OrderProduct.Qty
+	order.CreatedAt = o.OrderProduct.CreatedAt
+	order.UpdatedAt = o.OrderProduct.UpdatedAt
+	return order
+}
+
+func (p *OrderProduct) ToOrderProductModel() *OrderProductModel {
+	orderModel := new(OrderProductModel)
+	orderModel.OrderProduct.ID = p.ID
+	orderModel.OrderProduct.ProductID = p.ProductID
+	orderModel.OrderProduct.Qty = p.Qty
+	orderModel.OrderProduct.CreatedAt = p.CreatedAt
+	orderModel.OrderProduct.UpdatedAt = p.UpdatedAt
 	return orderModel
 }

@@ -1,10 +1,11 @@
-package order
+package orderproduct
 
 import "time"
 
-type Order struct {
+type OrderProduct struct {
 	ID         string     `db:"id" json:"id"`
-	IsVerified bool       `db:"is_verified" json:"is_verified"`
+	ProductID  string     `db:"product_id" json:"product_id"`
+	Qty        int        `db:"qty" json:"qty"`
 	CreatedAt  time.Time  `db:"created_at" json:"created_at"`
 	UpdatedAt  *time.Time `db:"updated_at" json:"updated_at"`
 }

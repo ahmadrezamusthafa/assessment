@@ -1,0 +1,97 @@
+package order
+
+import (
+	"context"
+	"github.com/ahmadrezamusthafa/assessment/common/errors"
+	"github.com/ahmadrezamusthafa/assessment/pkg/database"
+	"github.com/ahmadrezamusthafa/multigenerator"
+	"github.com/ahmadrezamusthafa/multigenerator/shared/types"
+)
+
+type OrderDomainItf interface {
+	Execute(ctx context.Context, query Query, order Order) error
+	Get(ctx context.Context, query Query, conditions []*types.Condition) (orders []Order, err error)
+}
+
+type OrderRepositoryItf interface {
+	execute(ctx context.Context, query string, order Order) (err error)
+	get(ctx context.Context, query string) (orders []Order, err error)
+}
+
+type Domain struct {
+	repository OrderRepositoryItf
+}
+
+type OrderRepository struct {
+	DB *database.AssessmentDatabase
+}
+
+func NewDomainRepository(repo OrderRepositoryItf) Domain {
+	return Domain{
+		repository: repo,
+	}
+}
+
+func (repo OrderRepository) execute(ctx context.Context, query string, order Order) (err error) {
+	dbRepository := DatabaseRepository{DB: repo.DB}
+	err = dbRepository.execute(ctx, query, order)
+	return errors.AddTrace(err)
+}
+
+func (repo OrderRepository) get(ctx context.Context, query string) (orders []Order, err error) {
+	dbRepository := DatabaseRepository{DB: repo.DB}
+	orders, err = dbRepository.get(ctx, query)
+	if err != nil {
+		return []Order{}, errors.AddTrace(err)
+	}
+	return
+}
+
+func (dom Domain) Execute(ctx context.Context, query Query, order Order) error {
+	return dom.repository.execute(ctx, query.ToString(), order)
+}
+
+func (dom Domain) Get(ctx context.Context, query Query, conditions []*types.Condition) (orders []Order, err error) {
+	baseCondition := types.BaseCondition{
+		Conditions: []*types.Condition{
+			{
+				Conditions: conditions,
+			},
+		},
+	}
+	generatedQuery, err := multigenerator.GenerateQuery(query.ToString(), baseCondition)
+	if err != nil {
+		return []Order{}, errors.AddTrace(err)
+	}
+	dbResp, err := dom.repository.get(ctx, generatedQuery)
+	if err != nil {
+		return []Order{}, errors.AddTrace(err)
+	}
+	if len(dbResp) <= 0 {
+		return []Order{}, errors.SqlNoRowsError
+	}
+	return dbResp, nil
+}
+
+func (dom Domain) GetWithFooter(ctx context.Context, query Query, conditions []*types.Condition, footer types.Footer) (orders []Order, err error) {
+	baseCondition := types.BaseCondition{
+		Conditions: []*types.Condition{
+			{
+				Conditions: conditions,
+			},
+		},
+		Footer: footer,
+	}
+	generatedQuery, err := multigenerator.GenerateQuery(query.ToString(), baseCondition)
+	if err != nil {
+		return []Order{}, errors.AddTrace(err)
+	}
+	dbResp, err := dom.repository.get(ctx, generatedQuery)
+	if err != nil {
+		return []Order{}, errors.AddTrace(err)
+	}
+	if len(dbResp) <= 0 {
+		return []Order{}, errors.SqlNoRowsError
+	}
+	return dbResp, nil
+}

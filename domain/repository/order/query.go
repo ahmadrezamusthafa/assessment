@@ -5,7 +5,7 @@ type Query string
 const (
 	QueryInsertOrder Query = `
 		INSERT INTO
-		order
+		"order"
 		(
 			id,
 			is_verified,
@@ -21,7 +21,7 @@ const (
 
 	QueryUpdateOrder Query = `
 		UPDATE
-		order
+		"order"
 		SET 
 			is_verified=:is_verified,
 			updated_at=CURRENT_TIMESTAMP
@@ -35,7 +35,7 @@ const (
 			is_verified,
 			created_at,
 			updated_at
-		FROM order
+		FROM "order"
 	`
 )
 

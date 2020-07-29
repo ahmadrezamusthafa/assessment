@@ -54,6 +54,8 @@ func createRouter(rh *RootHandler) *mux.Router {
 	kitaraStorePath.HandleFunc("/add_product", rh.KitaraStore.AddProduct).Methods("POST")
 	kitaraStorePath.HandleFunc("/add_product_quantity", rh.KitaraStore.AddProductQuantity).Methods("POST")
 	kitaraStorePath.HandleFunc("/decrease_product_quantity", rh.KitaraStore.DecreaseProductQuantity).Methods("POST")
+	kitaraStorePath.HandleFunc("/add_order", rh.KitaraStore.AddOrder).Methods("POST")
+	kitaraStorePath.HandleFunc("/verify_order", rh.KitaraStore.VerifyOrder).Methods("GET")
 
 	return router
 }

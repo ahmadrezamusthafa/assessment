@@ -67,6 +67,7 @@ func (p *Order) ToOrderModel() *OrderModel {
 func (o *OrderProductModel) ToOrderProduct() *OrderProduct {
 	order := new(OrderProduct)
 	order.ID = o.OrderProduct.ID
+	order.OrderID = o.OrderProduct.OrderID
 	order.ProductID = o.OrderProduct.ProductID
 	order.Qty = o.OrderProduct.Qty
 	order.CreatedAt = o.OrderProduct.CreatedAt
@@ -77,6 +78,7 @@ func (o *OrderProductModel) ToOrderProduct() *OrderProduct {
 func (p *OrderProduct) ToOrderProductModel() *OrderProductModel {
 	orderModel := new(OrderProductModel)
 	orderModel.OrderProduct.ID = p.ID
+	orderModel.OrderProduct.OrderID = p.OrderID
 	orderModel.OrderProduct.ProductID = p.ProductID
 	orderModel.OrderProduct.Qty = p.Qty
 	orderModel.OrderProduct.CreatedAt = p.CreatedAt

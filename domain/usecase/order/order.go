@@ -35,9 +35,29 @@ func (svc *OrderService) AddOrder(ctx context.Context, data shared.Order) error 
 	}
 
 	for _, orderProduct := range data.OrderProducts {
+		conditions := []*types.Condition{
+			{
+				Attribute: &types.Attribute{Name: "id", Operator: consts.OperatorEqual, Value: fmt.Sprint(orderProduct.ProductID), Type: valuetype.Alphanumeric},
+			},
+		}
+		product, err := svc.ProductService.GetProduct(ctx, conditions)
+		if err != nil {
+			return errors.AddTrace(err)
+		}
+		if product.Qty-orderProduct.Qty >= 0 {
+			product.Qty -= orderProduct.Qty
+		} else {
+			return errors.AddTrace(fmt.Errorf("insufficient product stock, %d stock available", product.Qty))
+		}
+		err = svc.ProductService.UpdateProduct(ctx, tx, product)
+		if err != nil {
+			return errors.AddTrace(err)
+		}
+
 		orderProductModel := shared.OrderProductModel{
 			OrderProduct: orderproduct.OrderProduct{
 				ID:        uuid.NewV1().String(),
+				OrderID:   orderModel.Order.ID,
 				ProductID: orderProduct.ProductID,
 				Qty:       orderProduct.Qty,
 			}}
@@ -65,44 +85,8 @@ func (svc *OrderService) VerifyOrder(ctx context.Context, id string) error {
 	if order.IsVerified {
 		return errors.AddTrace(errors.New("this order already verified"))
 	}
-	if len(order.OrderProducts) == 0 {
-		return errors.AddTrace(errors.New("order product is empty or removed unexpectedly"))
-	}
-
-	tx, err := svc.DB.GetDB().Begin()
-	if err != nil {
-		return errors.AddTrace(err)
-	}
-	defer tx.Rollback()
-	for _, orderProduct := range order.OrderProducts {
-		conditions := []*types.Condition{
-			{
-				Attribute: &types.Attribute{Name: "id", Operator: consts.OperatorEqual, Value: fmt.Sprint(orderProduct.ProductID), Type: valuetype.Alphanumeric},
-			},
-		}
-		product, err := svc.ProductService.GetProduct(ctx, conditions)
-		if err != nil {
-			return errors.AddTrace(err)
-		}
-		if product.Qty-orderProduct.Qty >= 0 {
-			product.Qty -= orderProduct.Qty
-		} else {
-			return errors.AddTrace(errors.New("insufficient product stock"))
-		}
-		err = svc.ProductService.UpdateProduct(ctx, tx, product)
-		if err != nil {
-			return errors.AddTrace(err)
-		}
-	}
-
-	// update is verified true
 	order.IsVerified = true
-	err = svc.updateTx(ctx, tx, *order.ToOrderModel())
-	if err != nil {
-		return errors.AddTrace(err)
-	}
-
-	err = tx.Commit()
+	err = svc.update(ctx, *order.ToOrderModel())
 	if err != nil {
 		return errors.AddTrace(err)
 	}

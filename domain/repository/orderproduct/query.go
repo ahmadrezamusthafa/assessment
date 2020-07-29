@@ -9,6 +9,7 @@ const (
 		(
 			id,
 			product_id,
+			order_id,
 			qty,
 			created_at
 		)
@@ -16,6 +17,7 @@ const (
 		(
 			:id,
 			:product_id,
+			:order_id,
 			:qty,
 			CURRENT_TIMESTAMP
 		)
@@ -25,6 +27,7 @@ const (
 		SELECT
 			id,
 			product_id,
+			order_id,
 			qty,
 			created_at,
 			updated_at

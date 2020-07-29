@@ -15,6 +15,11 @@ import (
 )
 
 func (svc *OrderService) AddOrder(ctx context.Context, data shared.Order) error {
+	if available, _ := svc.Cache.SetNX(shared.OrderLockKey, "lock", 60); !available {
+		return errors.AddTrace(errors.New("locked transaction"))
+	}
+	defer svc.Cache.Del(shared.OrderLockKey)
+
 	if len(data.OrderProducts) == 0 {
 		return errors.AddTrace(errors.New("order product is required"))
 	}

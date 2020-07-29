@@ -3,11 +3,13 @@ package order
 import (
 	"github.com/ahmadrezamusthafa/assessment/domain/repository/order"
 	"github.com/ahmadrezamusthafa/assessment/domain/usecase/orderproduct"
+	"github.com/ahmadrezamusthafa/assessment/domain/usecase/product"
 	"github.com/ahmadrezamusthafa/assessment/pkg/database"
 )
 
 type OrderService struct {
 	DB                  *database.AssessmentDatabase      `inject:"database"`
+	ProductService      *product.ProductService           `inject:"productService"`
 	OrderProductService *orderproduct.OrderProductService `inject:"orderProductService"`
 	OrderDomain         order.Domain
 }

@@ -2,6 +2,7 @@ package product
 
 import (
 	"context"
+	"database/sql"
 	"github.com/ahmadrezamusthafa/assessment/common/errors"
 	productdomain "github.com/ahmadrezamusthafa/assessment/domain/repository/product"
 	"github.com/ahmadrezamusthafa/assessment/shared"
@@ -45,6 +46,23 @@ func (svc *ProductService) DecreaseProductQuantity(ctx context.Context, id strin
 		product.Qty -= qty
 	}
 	return svc.update(ctx, *product.ToProductModel())
+}
+
+func (svc *ProductService) GetProduct(ctx context.Context, conditions []*types.Condition) (product *shared.Product, err error) {
+	respProducts, err := svc.get(ctx, productdomain.QuerySelectProduct, conditions)
+	if err != nil {
+		return product, errors.AddTrace(err)
+	}
+	model := shared.ProductModel{Product: respProducts[0]}
+	product = model.ToProduct()
+	return
+}
+
+func (svc *ProductService) UpdateProduct(ctx context.Context, tx *sql.Tx, product *shared.Product) error {
+	if product == nil {
+		return errors.AddTrace(errors.New("no product found"))
+	}
+	return svc.updateTx(ctx, tx, *product.ToProductModel())
 }
 
 func (svc *ProductService) getByID(ctx context.Context, id string) (product *shared.Product, err error) {

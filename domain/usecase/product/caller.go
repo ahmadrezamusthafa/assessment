@@ -2,6 +2,7 @@ package product
 
 import (
 	"context"
+	"database/sql"
 	"github.com/ahmadrezamusthafa/assessment/common/errors"
 	"github.com/ahmadrezamusthafa/assessment/domain/repository/product"
 	"github.com/ahmadrezamusthafa/assessment/shared"
@@ -23,6 +24,19 @@ func (svc *ProductService) insert(ctx context.Context, model shared.ProductModel
 func (svc *ProductService) update(ctx context.Context, model shared.ProductModel) (err error) {
 	err = svc.ProductDomain.Execute(
 		ctx,
+		product.QueryUpdateProduct,
+		model.Product,
+	)
+	if err != nil {
+		return errors.AddTrace(err)
+	}
+	return
+}
+
+func (svc *ProductService) updateTx(ctx context.Context, tx *sql.Tx, model shared.ProductModel) (err error) {
+	err = svc.ProductDomain.ExecuteTx(
+		ctx,
+		tx,
 		product.QueryUpdateProduct,
 		model.Product,
 	)

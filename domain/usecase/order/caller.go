@@ -46,6 +46,19 @@ func (svc *OrderService) update(ctx context.Context, model shared.OrderModel) (e
 	return
 }
 
+func (svc *OrderService) updateTx(ctx context.Context, tx *sql.Tx, model shared.OrderModel) (err error) {
+	err = svc.OrderDomain.ExecuteTx(
+		ctx,
+		tx,
+		order.QueryUpdateOrder,
+		model.Order,
+	)
+	if err != nil {
+		return errors.AddTrace(err)
+	}
+	return
+}
+
 func (svc *OrderService) get(ctx context.Context, query order.Query, conditions []*types.Condition) ([]order.Order, error) {
 	return svc.OrderDomain.Get(ctx, query, conditions)
 }

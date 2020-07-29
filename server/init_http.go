@@ -5,6 +5,7 @@ import (
 	commonhandlers "github.com/ahmadrezamusthafa/assessment/common/middleware"
 	"github.com/ahmadrezamusthafa/assessment/config"
 	"github.com/ahmadrezamusthafa/assessment/server/http/health"
+	"github.com/ahmadrezamusthafa/assessment/server/http/kitarastore"
 	"github.com/ahmadrezamusthafa/assessment/server/http/magazinegun"
 	"github.com/gorilla/mux"
 	"net/http"
@@ -17,8 +18,9 @@ type HttpServer struct {
 }
 
 type RootHandler struct {
-	Health   *health.Handler      `inject:"healthHandler"`
-	Magazine *magazinegun.Handler `inject:"magazineHandler"`
+	Health      *health.Handler      `inject:"healthHandler"`
+	Magazine    *magazinegun.Handler `inject:"magazineHandler"`
+	KitaraStore *kitarastore.Handler `inject:"kitarastoreHandler"`
 }
 
 func (svr *HttpServer) Serve() {

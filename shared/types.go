@@ -25,6 +25,7 @@ type ProductModel struct {
 
 type Order struct {
 	order.Order
+	OrderProducts []OrderProduct
 }
 
 type OrderModel struct {
@@ -33,6 +34,7 @@ type OrderModel struct {
 
 type OrderProduct struct {
 	orderproduct.OrderProduct
+	OrderID string
 }
 
 type OrderProductModel struct {

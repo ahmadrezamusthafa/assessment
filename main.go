@@ -12,6 +12,7 @@ import (
 	"github.com/ahmadrezamusthafa/assessment/pkg/database"
 	"github.com/ahmadrezamusthafa/assessment/server"
 	httphealth "github.com/ahmadrezamusthafa/assessment/server/http/health"
+	httpkitara "github.com/ahmadrezamusthafa/assessment/server/http/kitarastore"
 	httpmagazine "github.com/ahmadrezamusthafa/assessment/server/http/magazinegun"
 )
 
@@ -33,6 +34,7 @@ func main() {
 	container.RegisterService("orderProductService", new(orderproduct.OrderProductService))
 	container.RegisterService("healthHandler", new(httphealth.Handler))
 	container.RegisterService("magazineHandler", new(httpmagazine.Handler))
+	container.RegisterService("kitarastoreHandler", new(httpkitara.Handler))
 
 	rootHandler := new(server.RootHandler)
 	container.RegisterService("rootHandler", rootHandler)

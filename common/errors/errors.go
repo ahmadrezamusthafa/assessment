@@ -71,6 +71,13 @@ func AddTrace(err interface{}) error {
 	return parentErr
 }
 
+func GetHttpStatus(err interface{}) int {
+	if mainErr, ok := err.(Error); ok {
+		return mainErr.HttpStatus
+	}
+	return http.StatusInternalServerError
+}
+
 func ParseError(lang string, err error) Error {
 	mainErr, ok := err.(Error)
 	if !ok {

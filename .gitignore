@@ -2,6 +2,7 @@
 vendor/
 proto/
 bin/
+appsettings.json
 *.log.*
 *.log
 *.idea

@@ -60,7 +60,7 @@ func AddTrace(err interface{}) error {
 
 	parentErr := Error{
 		Code:       900001,
-		Title:      "ELSA Engine Error",
+		Title:      "Default Error",
 		DetailEn:   err.(error).Error(),
 		HttpStatus: http.StatusBadRequest,
 		ErrorWithDetails: ErrorWithDetails{

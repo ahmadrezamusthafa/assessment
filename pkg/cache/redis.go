@@ -41,6 +41,16 @@ func (r *RedisCache) Get(key string) (string, error) {
 	return resp, err
 }
 
+func (r *RedisCache) GetInt(key string) (int, error) {
+	redisReader := r.readerPool.Get()
+	defer redisReader.Close()
+	resp, err := redis.Int(redisReader.Do("GET", key))
+	if err != nil {
+		return resp, err
+	}
+	return resp, err
+}
+
 func (r *RedisCache) GetObj(key string, dest interface{}) error {
 	resp, err := r.Get(key)
 	if err != nil {
@@ -81,8 +91,29 @@ func (r *RedisCache) IsSliceContain(key string, value interface{}) bool {
 	return resp
 }
 
+func (r *RedisCache) SetNX(key string, value interface{}, ttl int) (bool, error) {
+	redisWriter := r.writerPool.Get()
+	defer redisWriter.Close()
+	resp, err := redis.Int(redisWriter.Do("SETNX", key, value))
+	if err != nil {
+		return false, err
+	}
+	_, err = redisWriter.Do("EXPIRE", key, ttl)
+	if err != nil {
+		return false, err
+	}
+	if resp == 1 {
+		return true, nil
+	}
+	return false, err
+}
+
 func (r *RedisCache) Set(key string, value interface{}) error {
 	return r.SetEx(key, value, r.Config.CacheTTL)
+}
+
+func (r *RedisCache) SetInt(key string, value int, ttl int) error {
+	return r.SetEx(key, value, ttl)
 }
 
 func (r *RedisCache) SetEx(key string, value interface{}, ttl int) error {

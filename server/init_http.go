@@ -5,6 +5,7 @@ import (
 	commonhandlers "github.com/ahmadrezamusthafa/assessment/common/middleware"
 	"github.com/ahmadrezamusthafa/assessment/config"
 	"github.com/ahmadrezamusthafa/assessment/server/http/health"
+	"github.com/ahmadrezamusthafa/assessment/server/http/kitarastore"
 	"github.com/ahmadrezamusthafa/assessment/server/http/magazinegun"
 	"github.com/gorilla/mux"
 	"net/http"
@@ -17,8 +18,9 @@ type HttpServer struct {
 }
 
 type RootHandler struct {
-	Health   *health.Handler      `inject:"healthHandler"`
-	Magazine *magazinegun.Handler `inject:"magazineHandler"`
+	Health      *health.Handler      `inject:"healthHandler"`
+	Magazine    *magazinegun.Handler `inject:"magazineHandler"`
+	KitaraStore *kitarastore.Handler `inject:"kitarastoreHandler"`
 }
 
 func (svr *HttpServer) Serve() {
@@ -47,6 +49,13 @@ func createRouter(rh *RootHandler) *mux.Router {
 	magazinePath.HandleFunc("/detach_magazine", rh.Magazine.DetachMagazine).Methods("GET")
 	magazinePath.HandleFunc("/verify", rh.Magazine.Verify).Methods("GET")
 	magazinePath.HandleFunc("/shot", rh.Magazine.ShotBullet).Methods("GET")
+
+	kitaraStorePath := router.PathPrefix("/store").Subrouter()
+	kitaraStorePath.HandleFunc("/add_product", rh.KitaraStore.AddProduct).Methods("POST")
+	kitaraStorePath.HandleFunc("/add_product_quantity", rh.KitaraStore.AddProductQuantity).Methods("POST")
+	kitaraStorePath.HandleFunc("/decrease_product_quantity", rh.KitaraStore.DecreaseProductQuantity).Methods("POST")
+	kitaraStorePath.HandleFunc("/add_order", rh.KitaraStore.AddOrder).Methods("POST")
+	kitaraStorePath.HandleFunc("/verify_order", rh.KitaraStore.VerifyOrder).Methods("GET")
 
 	return router
 }

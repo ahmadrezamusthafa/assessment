@@ -5,10 +5,15 @@ import (
 	"github.com/ahmadrezamusthafa/assessment/common/logger"
 	"github.com/ahmadrezamusthafa/assessment/config"
 	"github.com/ahmadrezamusthafa/assessment/domain/usecase/magazinegun"
+	"github.com/ahmadrezamusthafa/assessment/domain/usecase/order"
+	"github.com/ahmadrezamusthafa/assessment/domain/usecase/orderproduct"
+	"github.com/ahmadrezamusthafa/assessment/domain/usecase/product"
 	"github.com/ahmadrezamusthafa/assessment/pkg/cache"
 	"github.com/ahmadrezamusthafa/assessment/pkg/database"
+	"github.com/ahmadrezamusthafa/assessment/pkg/nsq"
 	"github.com/ahmadrezamusthafa/assessment/server"
 	httphealth "github.com/ahmadrezamusthafa/assessment/server/http/health"
+	httpkitara "github.com/ahmadrezamusthafa/assessment/server/http/kitarastore"
 	httpmagazine "github.com/ahmadrezamusthafa/assessment/server/http/magazinegun"
 )
 
@@ -24,9 +29,14 @@ func main() {
 	container.RegisterService("config", *conf)
 	container.RegisterService("database", new(database.AssessmentDatabase))
 	container.RegisterService("cache", new(cache.AssessmentCache))
+	container.RegisterService("nsq", new(nsq.AssessmentNSQ))
 	container.RegisterService("magazineService", new(magazinegun.MagazineService))
+	container.RegisterService("productService", new(product.ProductService))
+	container.RegisterService("orderService", new(order.OrderService))
+	container.RegisterService("orderProductService", new(orderproduct.OrderProductService))
 	container.RegisterService("healthHandler", new(httphealth.Handler))
 	container.RegisterService("magazineHandler", new(httpmagazine.Handler))
+	container.RegisterService("kitarastoreHandler", new(httpkitara.Handler))
 
 	rootHandler := new(server.RootHandler)
 	container.RegisterService("rootHandler", rootHandler)

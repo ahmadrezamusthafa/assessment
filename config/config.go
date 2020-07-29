@@ -21,6 +21,10 @@ type Config struct {
 	DatabaseName     string        `envconfig:"default=assessment"`
 	DatabaseUsername string        `envconfig:"default=postgres"`
 	DatabasePassword string        `envconfig:"default=reza"`
+	NSQDHost         string        `envconfig:"default=127.0.0.1"`
+	NSQDPort         int           `envconfig:"default=4150"`
+	NSQLookupHost    string        `envconfig:"default=127.0.0.1"`
+	NSQLookupPort    int           `envconfig:"default=4161"`
 }
 
 func readFromFileAndEnv(conf interface{}) (err error) {

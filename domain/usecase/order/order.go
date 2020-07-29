@@ -10,13 +10,22 @@ import (
 	"github.com/ahmadrezamusthafa/multigenerator/shared/consts"
 	"github.com/ahmadrezamusthafa/multigenerator/shared/enums/valuetype"
 	"github.com/ahmadrezamusthafa/multigenerator/shared/types"
+	jsoniter "github.com/json-iterator/go"
 	uuid "github.com/satori/go.uuid"
 	"time"
 )
 
-func (svc *OrderService) AddOrder(ctx context.Context, data shared.Order) error {
+func (svc *OrderService) AddOrder(ctx context.Context, data shared.Order, nsqParam ...interface{}) error {
 	if available, _ := svc.Cache.SetNX(shared.OrderLockKey, "lock", 60); !available {
-		return errors.AddTrace(errors.New("locked transaction"))
+		if len(nsqParam) == 0 {
+			jsonByte, err := jsoniter.Marshal(data)
+			if err != nil {
+				return errors.AddTrace(err)
+			}
+			return svc.NSQ.Publish(TopicAddOrder, jsonByte)
+		} else {
+			return errors.AddTrace(errors.New("add order still locked, trigger queue"))
+		}
 	}
 	defer svc.Cache.Del(shared.OrderLockKey)
 

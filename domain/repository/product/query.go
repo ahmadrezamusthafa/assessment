@@ -42,7 +42,7 @@ const (
 			qty,
 			created_at,
 			updated_at
-		FROM magazine_gun
+		FROM product
 	`
 )
 

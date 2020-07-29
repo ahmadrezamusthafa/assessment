@@ -21,7 +21,7 @@ const (
 
 	QueryUpdateOrder Query = `
 		UPDATE
-		magazine_gun
+		order
 		SET 
 			is_verified=:is_verified,
 			updated_at=CURRENT_TIMESTAMP

@@ -8,6 +8,7 @@ import (
 	jsoniter "github.com/json-iterator/go"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 )
 
 type Handler struct {
@@ -71,7 +72,7 @@ func (h *Handler) AddMagazineBullet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = h.MagazineService.AddMagazineBullet(ctx, param.Name, param.Qty)
+	err = h.MagazineService.AddMagazineBullet(ctx, param.ID, param.Qty)
 	if err != nil {
 		err = errors.AddTrace(err)
 		return
@@ -142,6 +143,36 @@ func (h *Handler) Verify(w http.ResponseWriter, r *http.Request) {
 	}()
 
 	magazine, err := h.MagazineService.Verify(ctx)
+	if err != nil {
+		err = errors.AddTrace(err)
+		return
+	}
+	respWriter.SuccessWriter(w, http.StatusOK, magazine)
+}
+
+func (h *Handler) ShotBullet(w http.ResponseWriter, r *http.Request) {
+	var (
+		err        error
+		qty        int
+		ctx        = r.Context()
+		queries    = r.URL.Query()
+		respWriter = respwriter.New()
+	)
+	defer func() {
+		if err != nil {
+			respWriter.ErrorWriter(w, errors.GetHttpStatus(err), "en", err)
+		}
+	}()
+
+	if val, ok := queries["qty"]; ok {
+		qty, err = strconv.Atoi(val[0])
+		if err != nil {
+			err = errors.AddTrace(err)
+			return
+		}
+	}
+
+	magazine, err := h.MagazineService.ShotBullet(ctx, qty)
 	if err != nil {
 		err = errors.AddTrace(err)
 		return

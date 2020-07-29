@@ -1,6 +1,7 @@
 package magazinegun
 
 type Param struct {
-	Name string `json:"name"`
-	Qty  int    `json:"qty"`
+	ID   string `json:"id,omitempty"`
+	Name string `json:"name,omitempty"`
+	Qty  int    `json:"qty,omitempty"`
 }

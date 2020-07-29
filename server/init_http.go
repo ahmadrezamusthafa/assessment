@@ -46,6 +46,7 @@ func createRouter(rh *RootHandler) *mux.Router {
 	magazinePath.HandleFunc("/attach_magazine", rh.Magazine.AttachMagazine).Methods("GET")
 	magazinePath.HandleFunc("/detach_magazine", rh.Magazine.DetachMagazine).Methods("GET")
 	magazinePath.HandleFunc("/verify", rh.Magazine.Verify).Methods("GET")
+	magazinePath.HandleFunc("/shot", rh.Magazine.ShotBullet).Methods("GET")
 
 	return router
 }

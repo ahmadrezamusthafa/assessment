@@ -10,7 +10,6 @@
     "qty": 12
 }
 ```
-<br></br>
 > ##### POST {{host}}/magazine/add_magazine_bullet
 > add magazine bullet
 ```$xslt
@@ -19,23 +18,19 @@
     "qty": 3
 }
 ```
-<br></br>
 > ##### GET {{host}}/magazine/attach_magazine
 > attach magazine to gun
 ```$xslt
 id = ca1fad7a-d131-11ea-bb01-309c23fed129
 ```
-<br></br>
 > ##### GET {{host}}/magazine/detach_magazine
 > detach magazine from gun
 ```$xslt
 id = ca1fad7a-d131-11ea-bb01-309c23fed129
 ```
-<br></br>
 > ##### GET {{host}}/magazine/verify
 > verify magazine
 
-<br></br>
 > ##### GET {{host}}/magazine/shot
 > shot bullets from gun
 ```$xslt
@@ -54,7 +49,6 @@ qty = 1
     "qty": 20
 }
 ```
-<br></br>
 > ##### POST {{host}}/store/add_product_quantity
 > add new product quantity
 ```$xslt
@@ -63,7 +57,6 @@ qty = 1
     "qty": 5
 }
 ```
-<br></br>
 > ##### POST {{host}}/store/add_order
 > add new order
 ```$xslt
@@ -76,12 +69,66 @@ qty = 1
 	]
 }
 ```
-<br></br>
 > ##### GET {{host}}/store/verify_order
 > add new order
 ```$xslt
 id = ae8901c1-d166-11ea-b87a-309c23fed129
 ```
 
+<br></br>
+## Solution 3
+### Solve probability of key
+```$xslt
+Solution 1
+[# # # # # # # #]
+[# . . . . . . #]
+[# . # # # . . #]
+[# X X X # . # #]
+[# X # X . . . #]
+[# # # # # # # #]
+
+Solution 2
+[# # # # # # # #]
+[# X X X X X . #]
+[# X # # # X . #]
+[# X . . # X # #]
+[# X # . . X . #]
+[# # # # # # # #]
+
+Solution 3
+[# # # # # # # #]
+[# X X X X X . #]
+[# X # # # X . #]
+[# X . . # X # #]
+[# X # . . . . #]
+[# # # # # # # #]
+
+Solution 4
+[# # # # # # # #]
+[# X X X X X . #]
+[# X # # # X . #]
+[# X . . # . # #]
+[# X # . . . . #]
+[# # # # # # # #]
+
+Solution 5
+[# # # # # # # #]
+[# . . . . X X #]
+[# . # # # X X #]
+[# . . . # X # #]
+[# . # . . X . #]
+[# # # # # # # #]
+
+
+Merged Solution
+[# # # # # # # #]
+[# X X X X X X #]
+[# X # # # X X #]
+[# X X X # X # #]
+[# X # X . X . #]
+[# # # # # # # #]
+
+Total for probability of key = 16 point
+```
  <br></br>
  > by *Ahmad Reza Musthafa*

@@ -78,7 +78,79 @@ id = ae8901c1-d166-11ea-b87a-309c23fed129
 <br></br>
 ## Solution 3
 ### Solve probability of key
+
+> RULE
+> 1. Go to north Y step, then
+> 2. Go to east Y step, then
+> 3. Go to south Y step
+
 ```$xslt
+Solution 1
+[# # # # # # # #]
+[# . . . . . . #]
+[# . # # # . . #]
+[# X X X # . # #]
+[# X # X . . . #]
+[# # # # # # # #]
+
+Solution 2
+[# # # # # # # #]
+[# . . . . X X #]
+[# . # # # X X #]
+[# . . . # X # #]
+[# . # . . X . #]
+[# # # # # # # #]
+
+Solution 3
+[# # # # # # # #]
+[# X X X X X . #]
+[# X # # # X . #]
+[# X . . # X # #]
+[# . # . . X . #]
+[# # # # # # # #]
+
+Solution 4
+[# # # # # # # #]
+[# . . . . X X #]
+[# . # # # X X #]
+[# . . . # X # #]
+[# . # . . . . #]
+[# # # # # # # #]
+
+Solution 5
+[# # # # # # # #]
+[# X X X X X . #]
+[# X # # # X . #]
+[# . . . # X # #]
+[# . # . . X . #]
+[# # # # # # # #]
+
+Solution 6
+[# # # # # # # #]
+[# . . . . X X #]
+[# . # # # X X #]
+[# . . . # . # #]
+[# . # . . . . #]
+[# # # # # # # #]
+
+
+Merged Solution
+[# # # # # # # #]
+[# X X X X X X #]
+[# X # # # X X #]
+[# X X X # X # #]
+[# X # X . X . #]
+[# # # # # # # #]
+
+Total for probability of key = 16 point
+```
+
+> RULE
+> 1. Go to north Y step, then
+> 2. Go to west Y step, then
+> 3. Go to south Y step
+```
+
 Solution 1
 [# # # # # # # #]
 [# . . . . . . #]

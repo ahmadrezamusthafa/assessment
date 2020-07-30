@@ -21,11 +21,11 @@ var (
 	scanPosCol = -1
 
 	northStep = 0
-	eastStep  = 0
+	westStep  = 0
 	southStep = 0
 
 	enableNorth bool
-	enableEast  bool
+	enableWest  bool
 	enableSouth bool
 
 	isStop = false
@@ -56,10 +56,10 @@ func scan(posRow, posCol int) bool {
 
 	if maze[posRow][posCol] == "." {
 		enableNorth = true
-		enableEast = false
+		enableWest = false
 		enableSouth = false
 		northStep = 0
-		eastStep = 0
+		westStep = 0
 		southStep = 0
 		solved = false
 		scanPosRow = posRow
@@ -101,15 +101,15 @@ func move(posRow, posCol int) bool {
 	if enableSouth && southStep > 0 && posRow+1 < len(maze) && maze[posRow+1][posCol] == "#" {
 		return true
 	}
-	// check south after east step
-	if enableEast && eastStep > 0 && posRow+1 < len(maze) && maze[posRow+1][posCol] == "." {
+	// check south after west step
+	if enableWest && westStep > 0 && posRow+1 < len(maze) && maze[posRow+1][posCol] == "." {
 		enableSouth = true
-		enableEast = false
+		enableWest = false
 		enableNorth = false
 	}
-	// check east
+	// check west
 	if enableNorth && northStep > 0 && posCol-1 >= 0 && maze[posRow][posCol-1] == "." {
-		enableEast = true
+		enableWest = true
 		enableNorth = false
 		enableSouth = false
 	}
@@ -122,9 +122,9 @@ func move(posRow, posCol int) bool {
 			return false
 		}
 	}
-	if enableEast {
+	if enableWest {
 		if maze[posRow][posCol-1] == "." {
-			eastStep++
+			westStep++
 			move(posRow, posCol-1)
 		}
 	}
@@ -179,6 +179,13 @@ func displaySolution() {
 }
 
 func main() {
+	fmt.Println(`
+	RULE
+	1. Go to north Y step, then
+	2. Go to west Y step, then
+	3. Go to south Y step
+	`)
+
 	scan(scanPosRow, scanPosCol)
 	move(scanPosRow, scanPosCol)
 	process()

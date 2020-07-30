@@ -90,13 +90,13 @@ Solution 1
 [# . . . . . . #]
 [# . # # # . . #]
 [# X X X # . # #]
-[# X # X . . . #]
+[# X # K . . . #]
 [# # # # # # # #]
 
 Solution 2
 [# # # # # # # #]
 [# . . . . X X #]
-[# . # # # X X #]
+[# . # # # X K #]
 [# . . . # X # #]
 [# . # . . X . #]
 [# # # # # # # #]
@@ -104,15 +104,15 @@ Solution 2
 Solution 3
 [# # # # # # # #]
 [# X X X X X . #]
-[# X # # # X . #]
-[# X . . # X # #]
-[# . # . . X . #]
+[# X # # # K . #]
+[# X . . # K # #]
+[# . # . . K . #]
 [# # # # # # # #]
 
 Solution 4
 [# # # # # # # #]
 [# . . . . X X #]
-[# . # # # X X #]
+[# . # # # X K #]
 [# . . . # X # #]
 [# . # . . . . #]
 [# # # # # # # #]
@@ -120,29 +120,29 @@ Solution 4
 Solution 5
 [# # # # # # # #]
 [# X X X X X . #]
-[# X # # # X . #]
-[# . . . # X # #]
-[# . # . . X . #]
+[# X # # # K . #]
+[# . . . # K # #]
+[# . # . . K . #]
 [# # # # # # # #]
 
 Solution 6
 [# # # # # # # #]
 [# . . . . X X #]
-[# . # # # X X #]
+[# . # # # X K #]
 [# . . . # . # #]
 [# . # . . . . #]
 [# # # # # # # #]
 
 
-Merged Solution
+Merged Solution for Key
 [# # # # # # # #]
-[# X X X X X X #]
-[# X # # # X X #]
-[# X X X # X # #]
-[# X # X . X . #]
+[# . . . . . . #]
+[# . # # # K K #]
+[# . . . # K # #]
+[# . # K . K . #]
 [# # # # # # # #]
 
-Total for probability of key = 16 point
+Total for probability of key = 5 point
 ```
 
 > RULE
@@ -150,57 +150,56 @@ Total for probability of key = 16 point
 > 2. Go to west Y step, then
 > 3. Go to south Y step
 ```
-
 Solution 1
 [# # # # # # # #]
 [# . . . . . . #]
 [# . # # # . . #]
 [# X X X # . # #]
-[# X # X . . . #]
+[# K # X . . . #]
 [# # # # # # # #]
 
 Solution 2
 [# # # # # # # #]
 [# X X X X X . #]
-[# X # # # X . #]
-[# X . . # X # #]
-[# X # . . X . #]
+[# K # # # X . #]
+[# K . . # X # #]
+[# K # . . X . #]
 [# # # # # # # #]
 
 Solution 3
 [# # # # # # # #]
 [# X X X X X . #]
-[# X # # # X . #]
-[# X . . # X # #]
-[# X # . . . . #]
+[# K # # # X . #]
+[# K . . # X # #]
+[# K # . . . . #]
 [# # # # # # # #]
 
 Solution 4
 [# # # # # # # #]
 [# X X X X X . #]
-[# X # # # X . #]
-[# X . . # . # #]
-[# X # . . . . #]
+[# K # # # X . #]
+[# K . . # . # #]
+[# K # . . . . #]
 [# # # # # # # #]
 
 Solution 5
 [# # # # # # # #]
 [# . . . . X X #]
-[# . # # # X X #]
-[# . . . # X # #]
-[# . # . . X . #]
+[# . # # # K X #]
+[# . . . # K # #]
+[# . # . . K . #]
 [# # # # # # # #]
 
 
-Merged Solution
+Merged Solution for Key
 [# # # # # # # #]
-[# X X X X X X #]
-[# X # # # X X #]
-[# X X X # X # #]
-[# X # X . X . #]
+[# . . . . . . #]
+[# K # # # K . #]
+[# K . . # K # #]
+[# K # . . K . #]
 [# # # # # # # #]
 
-Total for probability of key = 16 point
+Total for probability of key = 6 point
 ```
  <br></br>
  > by *Ahmad Reza Musthafa*

@@ -88,7 +88,11 @@ func move(posRow, posCol int) bool {
 		return false
 	}
 
-	tempSolution[posRow][posCol] = "X"
+	if enableSouth {
+		tempSolution[posRow][posCol] = "K"
+	} else {
+		tempSolution[posRow][posCol] = "X"
+	}
 	if enableDebug {
 		time.Sleep(2 * time.Second)
 		displayMaze := maze
@@ -172,7 +176,7 @@ func displaySolution() {
 		for i, m := range solution {
 			fmt.Println(m)
 			for j, c := range m {
-				if c == "X" {
+				if c == "K" {
 					mergedSolution[i][j] = c
 				}
 			}
@@ -180,11 +184,11 @@ func displaySolution() {
 		fmt.Println("")
 	}
 	totalPoint := 0
-	fmt.Println("\nMerged Solution")
+	fmt.Println("\nMerged Solution for Key")
 	for _, merged := range mergedSolution {
 		fmt.Println(merged)
 		for _, char := range merged {
-			if char == "X" {
+			if char == "K" {
 				totalPoint++
 			}
 		}
